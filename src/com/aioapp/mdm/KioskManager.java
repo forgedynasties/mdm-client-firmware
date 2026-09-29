@@ -18,6 +18,16 @@ public class KioskManager {
     private static final String PREFS_NAME = "mdm_kiosk";
     private static final String KEY_CONFIG = "kiosk_config";
 
+    /**
+     * True when the device was booted into the factory test mode (ABL reads "ffbm-02" from the
+     * misc partition, e.g. after POWER+VOL UP at power-on, and the QMMI test app takes the
+     * screen). In that mode nothing may lock the device to the kiosk app: lock-task would make
+     * QMMI's launch fail with a lock-task violation.
+     */
+    public static boolean isFactoryTestBoot() {
+        return "ffbm-02".equals(SystemPropertiesProxy.get("ro.bootmode", ""));
+    }
+
     /** Apply kiosk config and persist it so it survives reboots. */
     public static void applyAndSave(Context ctx, DevicePolicyManager dpm,
                                     ComponentName admin, JSONObject config) {
@@ -28,6 +38,10 @@ public class KioskManager {
     /** Apply kiosk config without persisting (e.g. on boot from saved prefs). */
     public static void apply(Context ctx, DevicePolicyManager dpm,
                              ComponentName admin, JSONObject config) {
+        if (isFactoryTestBoot()) {
+            Log.i(TAG, "Factory test boot (ffbm-02) — not applying kiosk config");
+            return;
+        }
         try {
             boolean enabled = config.optBoolean("kiosk_enabled", false);
             String pkg = config.optString("kiosk_package", "");

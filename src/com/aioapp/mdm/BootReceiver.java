@@ -31,6 +31,13 @@ public class BootReceiver extends BroadcastReceiver {
 
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())
                 || Intent.ACTION_LOCKED_BOOT_COMPLETED.equals(intent.getAction())) {
+            // Factory test boot: stay entirely out of the way of the QMMI test app. MdmService is
+            // only ever started from here, so this also keeps check-ins, remote commands and the
+            // kiosk watchdog off for the whole factory session.
+            if (KioskManager.isFactoryTestBoot()) {
+                Log.i(TAG, "Factory test boot (ffbm-02) - MDM service and kiosk not started");
+                return;
+            }
             Log.i(TAG, "Boot completed - starting MDM service");
             try {
                 Intent serviceIntent = new Intent(context, MdmService.class);
