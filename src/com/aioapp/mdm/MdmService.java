@@ -48,7 +48,9 @@ public class MdmService extends Service {
     private static final String CHANNEL_ID = "MDM_SERVICE";
     // Separate, gently-alerting channel for update / app-install completions, so the
     // persistent status channel can stay silent.
-    private static final String UPDATES_CHANNEL_ID = "AIO_MDM_UPDATES";
+    private static final String UPDATES_CHANNEL_ID = "AIO_MDM_UPDATES_quiet";
+    /** The updates channel before 1.26.0, which badged the launcher icon; deleted on start. */
+    private static final String OLD_UPDATES_CHANNEL_ID = "AIO_MDM_UPDATES";
     private static final int NOTIFICATION_ID = 1001;
 
     // Staff exit: the firmware (PhoneWindowManager's AioStaffExit) writes the time to this
@@ -5008,7 +5010,10 @@ public class MdmService extends Service {
         NotificationChannel updates = new NotificationChannel(
                 UPDATES_CHANNEL_ID, "Updates", NotificationManager.IMPORTANCE_DEFAULT);
         updates.setDescription("Progress and results for system updates and app installs.");
+        // No dot on AIO Device's icon in the unlocked Home (the launcher demos show none).
+        updates.setShowBadge(false);
         nm.createNotificationChannel(updates);
+        nm.deleteNotificationChannel(OLD_UPDATES_CHANNEL_ID);
     }
 
     private Notification buildStatus() {
