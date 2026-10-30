@@ -585,12 +585,15 @@ public class MdmService extends Service {
                 Settings.Secure.getUriFor(KIOSK_EXIT_REQUEST_SETTING), false,
                 kioskExitRequestObserver);
         staffPill = new StaffPill(this, this::backToGuestMode);
-        // The launcher's Home style (or the MDM shell) changed: the home widget redraws in it.
+        // The launcher's Home style (or the MDM shell) changed: the home widget redraws in it,
+        // and the shade turns light (Linen) or dark.
         homeStyleObserver = new ContentObserver(new Handler(Looper.getMainLooper())) {
             @Override public void onChange(boolean selfChange) {
                 AioHomeWidget.updateAll(MdmService.this);
+                AioShade.apply(MdmService.this);
             }
         };
+        AioShade.apply(this);
         getContentResolver().registerContentObserver(
                 Settings.Global.getUriFor(AioHomeWidget.STYLE_KEY), false, homeStyleObserver);
 
