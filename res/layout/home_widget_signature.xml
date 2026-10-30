@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- AIO Home, Signature (A): the glass nav pill with the AIO mark and the venue, a greeting in
-     Poppins Light with the venue lit in coral, and the coral-to-violet "Open the menu" pill. -->
+     Poppins Light with the venue lit in coral, and the coral-to-violet "Open the menu" pill.
+     Rows 0-3 of the T7's 4x5 grid (24dp to 408dp from the top), as in the demo: the pill 12dp
+     under the top and 14dp from the screen edges, the greeting 22dp in, ending 8dp over the
+     bottom. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/home_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingStart="8dp"
-    android:paddingEnd="8dp"
-    android:paddingTop="4dp"
-    android:paddingBottom="10dp">
+    android:paddingStart="6dp"
+    android:paddingEnd="6dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="8dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="46dp"
@@ -48,18 +51,18 @@
         android:id="@+id/home_headline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="8dp"
         android:fontFamily="aio-sans-light"
         android:includeFontPadding="false"
-        android:letterSpacing="-0.03"
-        android:lineSpacingMultiplier="1.05"
+        android:letterSpacing="-0.045"
+        android:lineHeight="43.2sp"
         android:textColor="#FFFFFFFF"
-        android:textSize="38sp" />
+        android:textSize="40sp" />
     <TextView
         android:id="@+id/home_sub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="aio-sans"
         android:textColor="#BFFFFFFF"
@@ -68,7 +71,7 @@
         android:id="@+id/home_pill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="14dp"
         android:background="@drawable/home_grad_pill"
         android:gravity="center_vertical"

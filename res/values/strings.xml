@@ -18,5 +18,8 @@
     <string name="guest_welcome_preview_subtitle">Tap to see the menu</string>
     <string name="aio_home_widget_label">AIO Home</string>
     <string name="device_label">AIO Device</string>
+    <string name="aio_heading_more">More</string>
+    <string name="aio_heading_widget_label">AIO Home heading</string>
+    <string name="aio_heading_widget_description">The "More" heading on the second home screen</string>
     <string name="aio_home_widget_description">The tablet\'s home: the venue, the menu app and, until it is on a table, the setup steps</string>
 </resources>

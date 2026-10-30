@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:sharedUserId="android.uid.system"
     package="com.aioapp.mdm"
-    android:versionCode="123"
-    android:versionName="1.25.0" >
+    android:versionCode="124"
+    android:versionName="1.26.0" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -108,8 +108,8 @@
             android:grantUriPermissions="false" />
 
         <!-- Guest home-screen widgets: the 4x1 welcome card and the 2x1 guest Wi-Fi card. -->
-        <!-- The AIO Home widget (AioHomeWidget): 4x3 under the Google search bar on an unlocked
-             T7, in the launcher's Home style. -->
+        <!-- The AIO Home widget (AioHomeWidget): the block over or under the Google search bar
+             on an unlocked T7, in the launcher's Home style (three or four rows of its 4x5 grid). -->
         <receiver
             android:name=".AioHomeWidget"
             android:exported="true"
@@ -120,6 +120,19 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/aio_home_widget_info" />
+        </receiver>
+
+        <!-- AIO Home, page 2's "More" heading (AioHeadingWidget). -->
+        <receiver
+            android:name=".AioHeadingWidget"
+            android:exported="true"
+            android:label="@string/aio_heading_widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/aio_heading_widget_info" />
         </receiver>
 
         <receiver

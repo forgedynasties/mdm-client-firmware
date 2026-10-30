@@ -25,7 +25,7 @@ import android.widget.RemoteViews;
 import org.json.JSONObject;
 
 /**
- * The AIO Home widget (1.24.0; 4x2 on Linen since 1.25.0): the block under the Google search bar on an unlocked T7's
+ * The AIO Home widget (1.24.0; laid out on the 4x5 grid since 1.26.0): the block by the Google search bar on an unlocked T7's
  * home screen, in the Home style the launcher is set to ({@code Settings.Global}
  * {@value #STYLE_KEY}, written by the launcher's Home settings or the MDM shell):
  * <ul>
@@ -87,6 +87,7 @@ public class AioHomeWidget extends AppWidgetProvider {
             if (awm == null) return;
             int[] ids = awm.getAppWidgetIds(new ComponentName(ctx, AioHomeWidget.class));
             if (ids != null && ids.length > 0) update(ctx, awm, ids);
+            AioHeadingWidget.updateAll(ctx);
         } catch (RuntimeException e) {
             Log.w(TAG, "update failed: " + e.getMessage());
         }

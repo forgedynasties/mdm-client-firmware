@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AIO Home, page 2: the "More" heading over the rest of the apps, as in the launcher demos
+     (Poppins Light 28sp, 24dp from the screen's left edge and 44dp from its top). -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/home_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="aio-sans-light"
+        android:includeFontPadding="false"
+        android:letterSpacing="-0.04"
+        android:text="@string/aio_heading_more"
+        android:textColor="#FF111113"
+        android:textSize="28sp" />
+</FrameLayout>
