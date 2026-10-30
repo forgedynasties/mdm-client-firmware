@@ -1,5 +1,6 @@
 package com.aioapp.mdm;
 
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.om.OverlayInfo;
 import android.content.om.OverlayManager;
@@ -23,24 +24,27 @@ final class AioShade {
     /** Secure setting ThemeOverlayController reads the system palette from. */
     private static final String THEME_KEY = "theme_customization_overlay_packages";
     private static final String AIO_THEME = "{\"android.theme.customization.color_source\":\"preset\","
-            + "\"android.theme.customization.system_palette\":\"F9674E\","
-            + "\"android.theme.customization.accent_color\":\"F9674E\","
+            + "\"android.theme.customization.system_palette\":\"7A80F6\","
+            + "\"android.theme.customization.accent_color\":\"7A80F6\","
             + "\"android.theme.customization.theme_style\":\"TONAL_SPOT\"}";
 
     /**
-     * The system's colours from AIO coral (1.31.0), not from the wallpaper (which gave Settings
-     * and system dialogs a pink cast on Signature). Once: a different choice made later on the
-     * tablet is kept.
+     * The system's colours from AIO violet (1.32.0), not from the wallpaper (which gave Settings
+     * and system dialogs a pink cast on Signature). One seed makes all the palettes, so 1.31.0's
+     * coral also tinted the dark backgrounds brown; violet's are the demos' cool ink, and is
+     * the end of the coral-to-violet gradient. Once, and over 1.31.0's coral: a different choice
+     * made later on the tablet is kept.
      */
     static void accent(Context ctx) {
         try {
             android.content.ContentResolver cr = ctx.getContentResolver();
             String now = android.provider.Settings.Secure.getString(cr, THEME_KEY);
-            if (now != null && now.contains("F9674E")) return;
-            if (ctx.getSharedPreferences("aio_shade", Context.MODE_PRIVATE).getBoolean("accent_set", false)) return;
+            if (now != null && now.contains("7A80F6")) return;
+            boolean coral = now != null && now.contains("F9674E");
+            if (!coral && ctx.getSharedPreferences("aio_shade", Context.MODE_PRIVATE).getBoolean("accent_set", false)) return;
             android.provider.Settings.Secure.putString(cr, THEME_KEY, AIO_THEME);
             ctx.getSharedPreferences("aio_shade", Context.MODE_PRIVATE).edit().putBoolean("accent_set", true).apply();
-            Log.i(TAG, "system colours: AIO coral");
+            Log.i(TAG, "system colours: AIO violet");
         } catch (RuntimeException e) {
             Log.w(TAG, "can't set the system colours: " + e.getMessage());
         }
@@ -51,7 +55,9 @@ final class AioShade {
         try {
             OverlayManager om = ctx.getSystemService(OverlayManager.class);
             OverlayInfo info = om == null ? null : om.getOverlayInfo(LIGHT_OVERLAY, UserHandle.SYSTEM);
-            if (info == null || info.isEnabled() == light) return;
+            if (info == null) return;
+            nightMode(ctx, !light);
+            if (info.isEnabled() == light) return;
             om.setEnabled(LIGHT_OVERLAY, light, UserHandle.SYSTEM);
             Log.i(TAG, "shade: " + (light ? "light (Linen)" : "dark") + "; restarting SystemUI");
             new Thread(() -> {
@@ -64,6 +70,22 @@ final class AioShade {
             }, "AioShade").start();
         } catch (RuntimeException e) {
             Log.w(TAG, "can't switch the shade: " + e.getMessage());
+        }
+    }
+
+    /**
+     * The dark styles run the tablet in night mode (1.32.0): notifications in the dark shade,
+     * Settings and system dialogs dark, as in the demos. Linen stays in day mode.
+     */
+    private static void nightMode(Context ctx, boolean dark) {
+        try {
+            UiModeManager ui = ctx.getSystemService(UiModeManager.class);
+            int want = dark ? UiModeManager.MODE_NIGHT_YES : UiModeManager.MODE_NIGHT_NO;
+            if (ui == null || ui.getNightMode() == want) return;
+            ui.setNightMode(want);
+            Log.i(TAG, "night mode: " + (dark ? "on" : "off"));
+        } catch (RuntimeException e) {
+            Log.w(TAG, "can't set night mode: " + e.getMessage());
         }
     }
 }
