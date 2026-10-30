@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AIO Home, Board's title: four cells by one. -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/aio_title_widget_description"
+    android:initialLayout="@layout/home_title_board"
+    android:minWidth="250dp"
+    android:minHeight="40dp"
+    android:resizeMode="none"
+    android:targetCellWidth="4"
+    android:targetCellHeight="1"
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen" />

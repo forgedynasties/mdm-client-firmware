@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AIO Home, Board (B): the title over the Google search bar, as in the demo: the time and the
+     day, "Not on a table yet." (or "Ready for Table 12.") in Poppins Light, the AIO mark on the
+     right. Row 0 of the T7's 4x5 grid. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:orientation="horizontal"
+    android:paddingStart="6dp"
+    android:paddingEnd="6dp"
+    android:paddingBottom="14dp">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="aio-sans"
+            android:format12Hour="h:mm · EEEE"
+            android:format24Hour="H:mm · EEEE"
+            android:textColor="#FFB9B5AE"
+            android:textSize="11.5sp" />
+        <TextView
+            android:id="@+id/home_headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:fontFamily="aio-sans-light"
+            android:includeFontPadding="false"
+            android:letterSpacing="-0.04"
+            android:maxLines="1"
+            android:textColor="#FFFFFFFF"
+            android:textSize="30sp" />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="44dp"
+        android:layout_height="21dp"
+        android:layout_marginBottom="6dp"
+        android:src="@drawable/aio_mark" />
+</LinearLayout>

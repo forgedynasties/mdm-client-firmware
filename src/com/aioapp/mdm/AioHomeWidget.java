@@ -88,6 +88,7 @@ public class AioHomeWidget extends AppWidgetProvider {
             int[] ids = awm.getAppWidgetIds(new ComponentName(ctx, AioHomeWidget.class));
             if (ids != null && ids.length > 0) update(ctx, awm, ids);
             AioHeadingWidget.updateAll(ctx);
+            AioTitleWidget.updateAll(ctx);
         } catch (RuntimeException e) {
             Log.w(TAG, "update failed: " + e.getMessage());
         }
@@ -145,15 +146,6 @@ public class AioHomeWidget extends AppWidgetProvider {
 
     private static RemoteViews board(Context ctx, State st) {
         RemoteViews v = new RemoteViews(ctx.getPackageName(), R.layout.home_widget_board);
-        SpannableStringBuilder h = new SpannableStringBuilder();
-        if (st.deployed && st.g.hasTable()) {
-            h.append("Ready for ");
-            lit(h, "Table " + st.g.tableLabel + ".");
-        } else {
-            h.append("Not on a ");
-            lit(h, "table yet.");
-        }
-        v.setTextViewText(R.id.home_headline, h);
         tile(v, 1, "Menu app", st.menuApp == null ? "Not installed" : st.menuApp + " · open it", false);
         v.setOnClickPendingIntent(R.id.home_t1, openMenu(ctx));
         tile(v, 2, "Wi-Fi", st.ssid.isEmpty() ? "Not connected" : st.ssid, st.ssid.isEmpty());
@@ -275,6 +267,19 @@ public class AioHomeWidget extends AppWidgetProvider {
         s.append(label);
         v.setTextViewText(id, s);
         v.setViewVisibility(id, View.VISIBLE);
+    }
+
+    /** Board's title (AioTitleWidget): "Not on a *table yet.*" or "Ready for *Table 12.*" */
+    static CharSequence boardHeadline(GuestInfo g) {
+        SpannableStringBuilder h = new SpannableStringBuilder();
+        if (g.hasRestaurant() && g.hasTable()) {
+            h.append("Ready for ");
+            lit(h, "Table " + g.tableLabel + ".");
+        } else {
+            h.append("Not on a ");
+            lit(h, "table yet.");
+        }
+        return h;
     }
 
     /** Appends text in coral. */

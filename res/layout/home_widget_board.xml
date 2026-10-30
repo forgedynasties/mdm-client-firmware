@@ -1,30 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- AIO Home, Board (B): is this tablet ready for a table? The menu app, Wi-Fi, battery and stand,
      the AIO connection, the firmware and the table as tiles; a tile with a problem turns
-     coral-red. -->
+     coral-red. Rows 2-4 of the T7's 4x5 grid, under the search bar (the title over it is
+     AioTitleWidget); the tile rows are 92, 92 and 70dp, 8dp apart (each tile's 4dp margin), as in the demo. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/home_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingStart="4dp"
-    android:paddingEnd="4dp">
-    <TextView
-        android:id="@+id/home_headline"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="4dp"
-        android:fontFamily="aio-sans-light"
-        android:includeFontPadding="false"
-        android:letterSpacing="-0.03"
-        android:maxLines="1"
-        android:textColor="#FFFFFFFF"
-        android:textSize="26sp" />
+    android:paddingStart="2dp"
+    android:paddingEnd="2dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="4dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="92"
         android:orientation="horizontal">
         <LinearLayout
             android:id="@+id/home_t1"
@@ -106,7 +97,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="92"
         android:orientation="horizontal">
         <LinearLayout
             android:id="@+id/home_t3"
@@ -226,7 +217,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="70"
         android:orientation="horizontal">
         <LinearLayout
             android:id="@+id/home_t6"

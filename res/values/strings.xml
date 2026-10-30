@@ -19,6 +19,8 @@
     <string name="aio_home_widget_label">AIO Home</string>
     <string name="device_label">AIO Device</string>
     <string name="aio_heading_more">More</string>
+    <string name="aio_title_widget_label">AIO Home title</string>
+    <string name="aio_title_widget_description">Board\'s title: the time, and whether this tablet is on a table</string>
     <string name="aio_heading_widget_label">AIO Home heading</string>
     <string name="aio_heading_widget_description">The "More" heading on the second home screen</string>
     <string name="aio_home_widget_description">The tablet\'s home: the venue, the menu app and, until it is on a table, the setup steps</string>
