@@ -105,7 +105,10 @@ public class StaffPanelActivity extends Activity {
 
     /** True on products that get the panel; the others keep the plain PIN exit. */
     static boolean supported() {
-        return MdmProduct.KEY_T7.equals(MdmProduct.detect().key());
+        // 1.30.0: off on every product. Staff mode on a T7 is the unlocked tablet's own Home
+        // (the Signature style), not a separate panel (user, 30 Oct 2026: "staff mode is just
+        // coming back to this not a separate staff mode"), so the PIN leaves guest mode.
+        return false;
     }
 
     @Override

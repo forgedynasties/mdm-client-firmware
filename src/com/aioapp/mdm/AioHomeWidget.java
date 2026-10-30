@@ -96,8 +96,9 @@ public class AioHomeWidget extends AppWidgetProvider {
 
     static String style(Context ctx) {
         String s = Settings.Global.getString(ctx.getContentResolver(), STYLE_KEY);
-        if ("signature".equals(s) || "board".equals(s) || "setup".equals(s)) return s;
-        return "linen";
+        if ("linen".equals(s) || "board".equals(s) || "setup".equals(s)) return s;
+        // Signature is the default (picked 30 Oct 2026: "this is what we will be going with").
+        return "signature";
     }
 
     private static void update(Context ctx, AppWidgetManager awm, int[] ids) {

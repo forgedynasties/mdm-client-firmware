@@ -34,10 +34,10 @@ import android.widget.TextView;
  * U1 · Split (picked 28 Oct 2026, the same design as the Standard client's): on a landscape
  * screen the venue, "Staff unlock", what happens and the device on the left, the keypad on the
  * right; on a portrait screen the two stack. Dots fill as digits go in, round keys sized to the
- * screen, a coral unlock key next to 0, a white ring on the key a D-pad is on. On a T7 a right
- * PIN opens the staff controls ({@link StaffPanelActivity}) inside the lock (1.23.0); on the
- * other products it shows "Staff mode on" for a moment, then the tablet leaves lock task and
- * {@link StaffPill} stays up until someone goes back to guest mode.
+ * screen, a coral unlock key next to 0, a white ring on the key a D-pad is on. A right PIN
+ * shows "Staff mode on" for a moment, then the tablet leaves lock task for its own Home (on a
+ * T7, the AIO Signature Home) and {@link StaffPill} stays up until someone goes back to guest
+ * mode. (1.23.0 to 1.29.0 opened a separate staff panel on a T7 instead.)
  *
  * Opened by the firmware's corner + Power gesture (MdmService.onKioskExitRequested). Never
  * opens in lost mode — only the dashboard lifts that (see LostMode).
