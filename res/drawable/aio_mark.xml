@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The AIO mark (hero_mark.xml in the AIO settings): one stroke for the A, baseline and o, the
+     i stem, and the ring over the i. White; tint it where it needs another colour. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="44dp"
+    android:height="21dp"
+    android:viewportWidth="21.4"
+    android:viewportHeight="10.1">
+    <group android:translateX="-1.3" android:translateY="-0.8">
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#FFFFFFFF"
+            android:strokeWidth="1.35"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M2.4,10.1L6.6,4.3L10.6,9.5Q11.1,10.1 12,10.1H20.8A1.1,1.1 0,0 0,21.9 9V5.6A1.3,1.3 0,0 0,20.6 4.3H16.4A1.35,1.35 0,0 0,15.05 5.65V7.9M12.25,4.3V7.95" />
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#FFFFFFFF"
+            android:strokeWidth="0.32"
+            android:pathData="M12.25,1.18A0.72,0.72 0,1 1,12.25 2.62A0.72,0.72 0,1 1,12.25 1.18Z" />
+    </group>
+</vector>

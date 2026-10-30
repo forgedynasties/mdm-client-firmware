@@ -120,7 +120,7 @@ final class GuestInfo {
         changed(ctx);
     }
 
-    /** Notifies the status provider's observers and redraws the guest widgets. */
+    /** Notifies the status provider's observers and redraws the guest widgets and the home widget. */
     static void changed(Context ctx) {
         try {
             ctx.getContentResolver().notifyChange(StatusProvider.ROOT_URI, null);
@@ -128,6 +128,7 @@ final class GuestInfo {
             Log.w(TAG, "status notify failed: " + e.getMessage());
         }
         GuestWelcomeWidget.updateAll(ctx);
+        AioHomeWidget.updateAll(ctx);
     }
 
     // ── Guest app ────────────────────────────────────────────────────────────

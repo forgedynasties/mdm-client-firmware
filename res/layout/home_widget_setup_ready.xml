@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AIO Home, Setup (D), once the tablet is assigned: the venue, a big card that opens the menu,
+     and the checks as small chips. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/home_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/home_logo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/home_logo_box"
+            android:padding="6dp"
+            android:scaleType="fitCenter" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/home_venue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="aio-sans-medium"
+                android:maxLines="1"
+                android:textColor="#FFFFFFFF"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/home_sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="aio-sans"
+                android:maxLines="1"
+                android:textColor="#FFB9B5AE"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <ImageView
+            android:layout_width="44dp"
+            android:layout_height="21dp"
+            android:src="@drawable/aio_mark" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/home_big"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:background="@drawable/home_grad_card"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:padding="18dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="aio-sans-light"
+            android:letterSpacing="-0.03"
+            android:text="Open the menu"
+            android:textColor="#FFFFFFFF"
+            android:textSize="28sp" />
+        <TextView
+            android:id="@+id/home_big_sub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="aio-sans"
+            android:textColor="#E6FFFFFF"
+            android:textSize="12.5sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/home_c1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/home_chip_dark"
+            android:fontFamily="aio-sans"
+            android:maxLines="1"
+            android:paddingStart="10dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="6dp"
+            android:textColor="#FFDDDDDD"
+            android:textSize="11sp" />
+        <TextView
+            android:id="@+id/home_c2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/home_chip_dark"
+            android:fontFamily="aio-sans"
+            android:maxLines="1"
+            android:paddingStart="10dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="6dp"
+            android:textColor="#FFDDDDDD"
+            android:textSize="11sp" />
+        <TextView
+            android:id="@+id/home_c3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/home_chip_dark"
+            android:fontFamily="aio-sans"
+            android:maxLines="1"
+            android:paddingStart="10dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="6dp"
+            android:textColor="#FFDDDDDD"
+            android:textSize="11sp" />
+        <TextView
+            android:id="@+id/home_c4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/home_chip_dark"
+            android:fontFamily="aio-sans"
+            android:maxLines="1"
+            android:paddingStart="10dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="6dp"
+            android:textColor="#FFDDDDDD"
+            android:textSize="11sp" />
+    </LinearLayout>
+</LinearLayout>

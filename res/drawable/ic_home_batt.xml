@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AIO Home: battery. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M4,7h13a2,2 0,0 1,2 2v6a2,2 0,0 1,-2 2H4a2,2 0,0 1,-2 -2V9a2,2 0,0 1,2 -2ZM22,11v2M5,10v4" />
+</vector>

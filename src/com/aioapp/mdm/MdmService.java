@@ -59,6 +59,7 @@ public class MdmService extends Service {
     public static final String KIOSK_EXIT_REQUEST_SETTING = "aioapp_kiosk_exit_request";
     private ContentObserver kioskExitRequestObserver;
     private StaffPill staffPill;
+    private ContentObserver homeStyleObserver;
     /** The low-battery pill over a locked T7 (products with a battery only). */
     private BatteryPill batteryPill;
     private BroadcastReceiver screenOnReceiver;
@@ -527,6 +528,7 @@ public class MdmService extends Service {
                 }
                 lastChargingState = charging;
                 lastChargerType = chargerType;
+                AioHomeWidget.onBattery(MdmService.this, intent);
                 if (batteryPill != null) {
                     batteryPill.onBattery(intent, isInKioskLock() && !LostMode.isOn(MdmService.this)
                             && !KioskExit.isStaffMode(MdmService.this) && !StaffPanelActivity.showing);
@@ -581,6 +583,14 @@ public class MdmService extends Service {
                 Settings.Secure.getUriFor(KIOSK_EXIT_REQUEST_SETTING), false,
                 kioskExitRequestObserver);
         staffPill = new StaffPill(this, this::backToGuestMode);
+        // The launcher's Home style (or the MDM shell) changed: the home widget redraws in it.
+        homeStyleObserver = new ContentObserver(new Handler(Looper.getMainLooper())) {
+            @Override public void onChange(boolean selfChange) {
+                AioHomeWidget.updateAll(MdmService.this);
+            }
+        };
+        getContentResolver().registerContentObserver(
+                Settings.Global.getUriFor(AioHomeWidget.STYLE_KEY), false, homeStyleObserver);
 
         lockTaskListener = new TaskStackListener() {
             @Override public void onLockTaskModeChanged(int mode) {
@@ -604,6 +614,9 @@ public class MdmService extends Service {
             @Override public void onReceive(Context context, Intent intent) {
                 enforceKioskLock();
                 updateStaffPill();
+                // The home widget's clock line and greeting move with the time; the poll redraws it.
+                AioHomeWidget.setOnline(MdmService.this, wsClient != null && wsClient.isConnected());
+                AioHomeWidget.updateAll(MdmService.this);
                 if (networkAvailable && !polling) performCheckin();
                 else maybeQueueOffline();
                 scheduleNextPoll();
@@ -912,6 +925,7 @@ public class MdmService extends Service {
             public void onAvailable(Network network) {
                 networkAvailable = true;
                 refreshStatus();
+                AioHomeWidget.updateAll(MdmService.this);
                 Log.i(TAG, "Network available");
                 if (!remoteConfigLoaded) {
                     executor.submit(() -> {
@@ -927,6 +941,7 @@ public class MdmService extends Service {
                 networkAvailable = false;
                 Log.i(TAG, "Network lost");
                 refreshStatus();
+                AioHomeWidget.setOnline(MdmService.this, false);
             }
         };
         connectivityManager.registerNetworkCallback(request, networkCallback);
@@ -2125,7 +2140,7 @@ public class MdmService extends Service {
         wsClient = new MdmWebSocketClient(apiService.getApiBaseUrl(), serial, apiService.getApiKey());
         wsClient.setListener(this::handleWsMessage);
         // On every (re)connect the server has no baseline for us — send a full keyframe.
-        wsClient.setConnectedCallback(() -> { forceKeyframe = true; sendTelemetryOverWs(); drainPendingAcks(); serverReachable = true; refreshStatus(); flushOfflineQueue(); flushBatteryLog(); });
+        wsClient.setConnectedCallback(() -> { forceKeyframe = true; sendTelemetryOverWs(); drainPendingAcks(); serverReachable = true; refreshStatus(); flushOfflineQueue(); flushBatteryLog(); AioHomeWidget.setOnline(this, true); });
         wsClient.start();
         Log.i(TAG, "WebSocket client started");
     }
@@ -4848,6 +4863,7 @@ public class MdmService extends Service {
             public void onReceive(Context context, Intent intent) {
                 Log.i(TAG, "Package changed, invalidating app cache + pushing refreshed list");
                 cachedInstalledApps = null;
+                AioHomeWidget.updateAll(MdmService.this);
                 // Push the refreshed app list right away as a keyframe so the dashboard
                 // reflects an install/uninstall in seconds instead of waiting for the
                 // ~5-minute HTTP safety-net check-in (WS deltas don't carry the app list).
@@ -5101,6 +5117,9 @@ public class MdmService extends Service {
         }
         if (kioskExitRequestObserver != null) {
             try { getContentResolver().unregisterContentObserver(kioskExitRequestObserver); } catch (Exception ignored) {}
+        }
+        if (homeStyleObserver != null) {
+            try { getContentResolver().unregisterContentObserver(homeStyleObserver); } catch (Exception ignored) {}
         }
         if (staffPill != null) staffPill.hide();
         if (batteryPill != null) batteryPill.hide();

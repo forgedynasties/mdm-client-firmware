@@ -356,6 +356,7 @@ public class KioskManager {
                 .edit()
                 .putString(KEY_CONFIG, config.toString())
                 .apply();
+        AioHomeWidget.updateAll(ctx); // its "guest mode" step and tile
     }
 
     /** Returns the last saved config, or null if none has been received yet. */

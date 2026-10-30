@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AIO Home, Signature (A): the glass nav pill with the AIO mark and the venue, a greeting in
+     Poppins Light with the venue lit in coral, and the coral-to-violet "Open the menu" pill. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/home_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:paddingTop="4dp"
+    android:paddingBottom="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/home_glass_pill"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="18dp"
+        android:paddingEnd="8dp">
+        <ImageView
+            android:layout_width="44dp"
+            android:layout_height="21dp"
+            android:src="@drawable/aio_mark" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+        <TextView
+            android:id="@+id/home_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/home_chip_coral"
+            android:fontFamily="aio-sans"
+            android:maxLines="1"
+            android:paddingStart="12dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="7dp"
+            android:textColor="#FFFFFFFF"
+            android:textSize="12sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+    <TextView
+        android:id="@+id/home_headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:fontFamily="aio-sans-light"
+        android:includeFontPadding="false"
+        android:letterSpacing="-0.03"
+        android:lineSpacingMultiplier="1.05"
+        android:textColor="#FFFFFFFF"
+        android:textSize="38sp" />
+    <TextView
+        android:id="@+id/home_sub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="aio-sans"
+        android:textColor="#BFFFFFFF"
+        android:textSize="13.5sp" />
+    <LinearLayout
+        android:id="@+id/home_pill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/home_grad_pill"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="6dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="aio-sans"
+            android:text="Open the menu"
+            android:textColor="#FFFFFFFF"
+            android:textSize="15sp" />
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="14dp"
+            android:background="@drawable/home_oval_white"
+            android:padding="10dp"
+            android:src="@drawable/ic_home_arrow"
+            android:tint="#FF7A80F6" />
+    </LinearLayout>
+</LinearLayout>

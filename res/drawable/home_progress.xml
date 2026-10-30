@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AIO Home, Setup: progress through the steps, coral to violet on a faint track. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape><solid android:color="#1AFFFFFF" /><corners android:radius="2dp" /></shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <gradient android:angle="0" android:startColor="#FFF9674E" android:endColor="#FF7A80F6" />
+                <corners android:radius="2dp" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>

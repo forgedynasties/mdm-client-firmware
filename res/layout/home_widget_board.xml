@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AIO Home, Board (B): is this tablet ready for a table? The menu app, Wi-Fi, battery and stand,
+     the AIO connection, the firmware and the table as tiles; a tile with a problem turns
+     coral-red. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/home_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingStart="4dp"
+    android:paddingEnd="4dp">
+    <TextView
+        android:id="@+id/home_headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="4dp"
+        android:fontFamily="aio-sans-light"
+        android:includeFontPadding="false"
+        android:letterSpacing="-0.03"
+        android:maxLines="1"
+        android:textColor="#FFFFFFFF"
+        android:textSize="26sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/home_t1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:layout_weight="2"
+            android:background="@drawable/home_tile_hero"
+            android:orientation="vertical"
+            android:padding="12dp">
+            <ImageView
+                android:id="@+id/home_t1_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_home_menu"
+                android:tint="#FFFFFFFF" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <TextView
+                android:id="@+id/home_t1_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="aio-sans-medium"
+                android:maxLines="1"
+                android:textColor="#FFFFFFFF"
+                android:textSize="12.5sp" />
+            <TextView
+                android:id="@+id/home_t1_sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="aio-sans"
+                android:maxLines="2"
+                android:textColor="#D9FFFFFF"
+                android:textSize="10.5sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/home_t2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/home_tile"
+            android:orientation="vertical"
+            android:padding="12dp">
+            <ImageView
+                android:id="@+id/home_t2_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_home_wifi"
+                android:tint="#FFF9674E" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <TextView
+                android:id="@+id/home_t2_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="aio-sans-medium"
+                android:maxLines="1"
+                android:textColor="#FFFFFFFF"
+                android:textSize="12.5sp" />
+            <TextView
+                android:id="@+id/home_t2_sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="aio-sans"
+                android:maxLines="2"
+                android:textColor="#FFB9B5AE"
+                android:textSize="10.5sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/home_t3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/home_tile"
+            android:orientation="vertical"
+            android:padding="12dp">
+            <ImageView
+                android:id="@+id/home_t3_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_home_batt"
+                android:tint="#FFF9674E" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <TextView
+                android:id="@+id/home_t3_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="aio-sans-medium"
+                android:maxLines="1"
+                android:textColor="#FFFFFFFF"
+                android:textSize="12.5sp" />
+            <TextView
+                android:id="@+id/home_t3_sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="aio-sans"
+                android:maxLines="2"
+                android:textColor="#FFB9B5AE"
+                android:textSize="10.5sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/home_t4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/home_tile"
+            android:orientation="vertical"
+            android:padding="12dp">
+            <ImageView
+                android:id="@+id/home_t4_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_home_cloud"
+                android:tint="#FFF9674E" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <TextView
+                android:id="@+id/home_t4_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="aio-sans-medium"
+                android:maxLines="1"
+                android:textColor="#FFFFFFFF"
+                android:textSize="12.5sp" />
+            <TextView
+                android:id="@+id/home_t4_sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="aio-sans"
+                android:maxLines="2"
+                android:textColor="#FFB9B5AE"
+                android:textSize="10.5sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/home_t5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/home_tile"
+            android:orientation="vertical"
+            android:padding="12dp">
+            <ImageView
+                android:id="@+id/home_t5_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_home_update"
+                android:tint="#FFF9674E" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <TextView
+                android:id="@+id/home_t5_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="aio-sans-medium"
+                android:maxLines="1"
+                android:textColor="#FFFFFFFF"
+                android:textSize="12.5sp" />
+            <TextView
+                android:id="@+id/home_t5_sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="aio-sans"
+                android:maxLines="2"
+                android:textColor="#FFB9B5AE"
+                android:textSize="10.5sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/home_t6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/home_tile"
+            android:orientation="vertical"
+            android:padding="12dp">
+            <ImageView
+                android:id="@+id/home_t6_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_home_table"
+                android:tint="#FFF9674E" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <TextView
+                android:id="@+id/home_t6_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="aio-sans-medium"
+                android:maxLines="1"
+                android:textColor="#FFFFFFFF"
+                android:textSize="12.5sp" />
+            <TextView
+                android:id="@+id/home_t6_sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="aio-sans"
+                android:maxLines="2"
+                android:textColor="#FFB9B5AE"
+                android:textSize="10.5sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
