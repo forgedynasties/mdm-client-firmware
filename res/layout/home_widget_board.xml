@@ -2,7 +2,7 @@
 <!-- AIO Home, Board (B): is this tablet ready for a table? The menu app, Wi-Fi, battery and stand,
      the AIO connection, the firmware and the table as tiles; a tile with a problem turns
      coral-red. Rows 2-4 of the T7's 4x5 grid, under the search bar (the title over it is
-     AioTitleWidget); the tile rows are 92, 92 and 70dp, 8dp apart (each tile's 4dp margin), as in the demo. -->
+     AioTitleWidget); the tile rows are about 88, 88 and 80dp, 8dp apart (each tile's 4dp margin), so the table tile has room for its line. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/home_root"
     android:layout_width="match_parent"
@@ -15,7 +15,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="92"
+        android:layout_weight="88"
         android:orientation="horizontal">
         <LinearLayout
             android:id="@+id/home_t1"
@@ -97,7 +97,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="92"
+        android:layout_weight="88"
         android:orientation="horizontal">
         <LinearLayout
             android:id="@+id/home_t3"
@@ -209,7 +209,8 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:fontFamily="aio-sans"
-                android:maxLines="2"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="#FFB9B5AE"
                 android:textSize="10.5sp" />
         </LinearLayout>
@@ -217,7 +218,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="70"
+        android:layout_weight="80"
         android:orientation="horizontal">
         <LinearLayout
             android:id="@+id/home_t6"

@@ -180,6 +180,7 @@ public class AioHomeWidget extends AppWidgetProvider {
         lit(h, "onto a table.");
         v.setTextViewText(R.id.home_headline, h);
         v.setProgressBar(R.id.home_progress, 5, count, false);
+        v.setTextViewText(R.id.home_ring_text, count + "/5");
         int[] rows = {R.id.home_s1, R.id.home_s2, R.id.home_s3, R.id.home_s4, R.id.home_s5};
         int[] dots = {R.id.home_s1_dot, R.id.home_s2_dot, R.id.home_s3_dot, R.id.home_s4_dot, R.id.home_s5_dot};
         int[] titles = {R.id.home_s1_title, R.id.home_s2_title, R.id.home_s3_title, R.id.home_s4_title, R.id.home_s5_title};
@@ -231,7 +232,7 @@ public class AioHomeWidget extends AppWidgetProvider {
             ssid = ssid(ctx);
             menuApp = menuApp(ctx, g);
             build = SystemPropertiesProxy.get("ro.build.id", "");
-            serial = SystemPropertiesProxy.get("ro.serialno", "");
+            serial = deviceSerial();
             Intent b = ctx.getApplicationContext().registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
             battery = b == null ? -1 : percent(b);
             plugged = b != null && b.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) != 0;
@@ -292,6 +293,16 @@ public class AioHomeWidget extends AppWidgetProvider {
     private static String greeting() {
         int h = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY);
         return h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
+    }
+
+    /** The serial: Build.getSerial() (the client may read it), not ro.serialno (it may not). */
+    private static String deviceSerial() {
+        try {
+            String s = android.os.Build.getSerial();
+            if (s != null && !s.equals(android.os.Build.UNKNOWN)) return s;
+        } catch (SecurityException ignored) {
+        }
+        return SystemPropertiesProxy.get("ro.serialno", "");
     }
 
     private static int percent(Intent b) {
