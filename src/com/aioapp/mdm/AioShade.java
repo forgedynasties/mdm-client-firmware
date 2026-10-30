@@ -76,12 +76,22 @@ final class AioShade {
     /**
      * The dark styles run the tablet in night mode (1.32.0): notifications in the dark shade,
      * Settings and system dialogs dark, as in the demos. Linen stays in day mode.
+     *
+     * Only when the style changes (or the first time), never on a plain service start: CTS
+     * (UiModeManagerTest, RemoteViewsTest, BatterySaverTest, SplashscreenTests...) sets night
+     * mode itself, and a client restart in the middle must not switch it back.
      */
     private static void nightMode(Context ctx, boolean dark) {
         try {
+            android.content.SharedPreferences p =
+                    ctx.getSharedPreferences("aio_shade", Context.MODE_PRIVATE);
+            String style = dark ? "dark" : "light";
+            if (style.equals(p.getString("night_for", null))) return;
             UiModeManager ui = ctx.getSystemService(UiModeManager.class);
+            if (ui == null) return;
+            p.edit().putString("night_for", style).apply();
             int want = dark ? UiModeManager.MODE_NIGHT_YES : UiModeManager.MODE_NIGHT_NO;
-            if (ui == null || ui.getNightMode() == want) return;
+            if (ui.getNightMode() == want) return;
             ui.setNightMode(want);
             Log.i(TAG, "night mode: " + (dark ? "on" : "off"));
         } catch (RuntimeException e) {
