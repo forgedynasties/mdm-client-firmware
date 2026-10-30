@@ -18,6 +18,7 @@
     <string name="guest_welcome_preview_subtitle">Tap to see the menu</string>
     <string name="aio_home_widget_label">AIO Home</string>
     <string name="device_label">AIO Device</string>
+    <string name="device_settings_summary">Venue, AIO connection, firmware, serial</string>
     <string name="aio_heading_more">More</string>
     <string name="aio_title_widget_label">AIO Home title</string>
     <string name="aio_title_widget_description">Board\'s title: the time, and whether this tablet is on a table</string>

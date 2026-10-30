@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AIO Device's entry on the Settings home page: the AIO mark on the coral-to-violet gradient. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:width="40dp" android:height="40dp">
+        <shape android:shape="oval">
+            <gradient android:angle="315" android:startColor="#FFF9674E" android:endColor="#FF7A80F6" />
+        </shape>
+    </item>
+    <item android:width="40dp" android:height="40dp" android:left="7dp" android:right="7dp"
+        android:top="13dp" android:bottom="13dp" android:drawable="@drawable/aio_mark" />
+</layer-list>

@@ -20,6 +20,32 @@ final class AioShade {
 
     private AioShade() {}
 
+    /** Secure setting ThemeOverlayController reads the system palette from. */
+    private static final String THEME_KEY = "theme_customization_overlay_packages";
+    private static final String AIO_THEME = "{\"android.theme.customization.color_source\":\"preset\","
+            + "\"android.theme.customization.system_palette\":\"F9674E\","
+            + "\"android.theme.customization.accent_color\":\"F9674E\","
+            + "\"android.theme.customization.theme_style\":\"TONAL_SPOT\"}";
+
+    /**
+     * The system's colours from AIO coral (1.31.0), not from the wallpaper (which gave Settings
+     * and system dialogs a pink cast on Signature). Once: a different choice made later on the
+     * tablet is kept.
+     */
+    static void accent(Context ctx) {
+        try {
+            android.content.ContentResolver cr = ctx.getContentResolver();
+            String now = android.provider.Settings.Secure.getString(cr, THEME_KEY);
+            if (now != null && now.contains("F9674E")) return;
+            if (ctx.getSharedPreferences("aio_shade", Context.MODE_PRIVATE).getBoolean("accent_set", false)) return;
+            android.provider.Settings.Secure.putString(cr, THEME_KEY, AIO_THEME);
+            ctx.getSharedPreferences("aio_shade", Context.MODE_PRIVATE).edit().putBoolean("accent_set", true).apply();
+            Log.i(TAG, "system colours: AIO coral");
+        } catch (RuntimeException e) {
+            Log.w(TAG, "can't set the system colours: " + e.getMessage());
+        }
+    }
+
     static void apply(Context ctx) {
         boolean light = "linen".equals(AioHomeWidget.style(ctx));
         try {

@@ -594,6 +594,7 @@ public class MdmService extends Service {
             }
         };
         AioShade.apply(this);
+        if (MdmProduct.KEY_T7.equals(MdmProduct.detect().key())) AioShade.accent(this);
         getContentResolver().registerContentObserver(
                 Settings.Global.getUriFor(AioHomeWidget.STYLE_KEY), false, homeStyleObserver);
 
