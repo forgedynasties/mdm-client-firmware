@@ -10,7 +10,9 @@ import android.util.Log;
  * The swipe-down shade follows the Home style (1.27.0), as in the launcher demos: Linen's is
  * light, the other styles share the dark AIO shade. The firmware's SystemUI is the dark shade;
  * the AioShadeLight overlay (com.aioapp.overlay.shadelight) swaps in Linen's colours, so this
- * turns it on for Linen and off otherwise. A firmware without the overlay is left alone.
+ * turns it on for Linen and off otherwise, then restarts SystemUI: its header and the colour
+ * behind the shade are only read when it starts. Only when the shade changes, so a style change
+ * (rare, at setup) costs one SystemUI restart. A firmware without the overlay is left alone.
  */
 final class AioShade {
     private static final String TAG = "AioShade";
@@ -25,7 +27,15 @@ final class AioShade {
             OverlayInfo info = om == null ? null : om.getOverlayInfo(LIGHT_OVERLAY, UserHandle.SYSTEM);
             if (info == null || info.isEnabled() == light) return;
             om.setEnabled(LIGHT_OVERLAY, light, UserHandle.SYSTEM);
-            Log.i(TAG, "shade: " + (light ? "light (Linen)" : "dark"));
+            Log.i(TAG, "shade: " + (light ? "light (Linen)" : "dark") + "; restarting SystemUI");
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1500);
+                    Runtime.getRuntime().exec(new String[] {"am", "crash", "com.android.systemui"}).waitFor();
+                } catch (Exception e) {
+                    Log.w(TAG, "SystemUI restart: " + e.getMessage());
+                }
+            }, "AioShade").start();
         } catch (RuntimeException e) {
             Log.w(TAG, "can't switch the shade: " + e.getMessage());
         }
