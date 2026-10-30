@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- RelockCoverActivity's window: its first frame is already the dark AIO background. -->
+<!-- RelockCoverActivity's window: its first frame is already the dark AIO signature background. -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <gradient
-        android:angle="315"
-        android:startColor="#3A2B5E"
-        android:endColor="#1B1530" />
+        android:angle="270"
+        android:startColor="#1A1411"
+        android:endColor="#111113" />
 </shape>

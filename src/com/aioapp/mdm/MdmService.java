@@ -59,6 +59,8 @@ public class MdmService extends Service {
     public static final String KIOSK_EXIT_REQUEST_SETTING = "aioapp_kiosk_exit_request";
     private ContentObserver kioskExitRequestObserver;
     private StaffPill staffPill;
+    /** The low-battery pill over a locked T7 (products with a battery only). */
+    private BatteryPill batteryPill;
     private BroadcastReceiver screenOnReceiver;
     // Re-lock the moment lock task drops (the host app crashed or was killed), instead of
     // leaving the guest on the launcher until the next poll. RELOCK_MAX re-locks inside
@@ -525,8 +527,13 @@ public class MdmService extends Service {
                 }
                 lastChargingState = charging;
                 lastChargerType = chargerType;
+                if (batteryPill != null) {
+                    batteryPill.onBattery(intent, isInKioskLock() && !LostMode.isOn(MdmService.this)
+                            && !KioskExit.isStaffMode(MdmService.this) && !StaffPanelActivity.showing);
+                }
             }
         };
+        if (product.hasBattery()) batteryPill = new BatteryPill(this);
         cachedBatteryIntent = registerReceiver(batteryReceiver,
                 new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
@@ -804,6 +811,7 @@ public class MdmService extends Service {
     /** The firmware asked for the staff PIN pad (corner + Power while locked). */
     private void onKioskExitRequested() {
         if (!isInKioskLock() || LostMode.isOn(this) || !KioskExit.isEnabled(this)) return;
+        if (StaffPanelActivity.showing) return; // staff are already in
         Log.i(TAG, "kiosk-exit: corner + Power — opening the staff PIN pad");
         showUnlockPrompt();
     }
@@ -5095,6 +5103,7 @@ public class MdmService extends Service {
             try { getContentResolver().unregisterContentObserver(kioskExitRequestObserver); } catch (Exception ignored) {}
         }
         if (staffPill != null) staffPill.hide();
+        if (batteryPill != null) batteryPill.hide();
         relockHandler.removeCallbacks(relockRunnable);
         relockHandler.removeCallbacks(lockDroppedRunnable);
         if (lockTaskListener != null) {

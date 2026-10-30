@@ -6,23 +6,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.window.SplashScreen;
 
@@ -30,8 +22,8 @@ import android.window.SplashScreen;
  * "Just a moment" over the screen while a locked tablet's host app is put back. When lock
  * task drops (the app crashed or was killed) the device is unlocked for the second or two
  * before MdmService re-locks it, and the guest would otherwise see the launcher. This covers
- * that gap: the venue's logo (the AIO mark until there is one) in a coral spinner, on the dark
- * AIO background, and nothing to touch.
+ * that gap in the AIO signature look (1.23.0): the dim scene, the AIO nav pill with the venue,
+ * "Just a moment." with a shimmer line, and nothing to touch.
  *
  * It goes away by itself: ACTION_DONE when the device is locked again, or after
  * {@link #MAX_MS} whatever happens, so a host app that never comes back can't leave the
@@ -40,12 +32,6 @@ import android.window.SplashScreen;
 public class RelockCoverActivity extends Activity {
     static final String ACTION_DONE = "com.aioapp.mdm.action.RELOCK_COVER_DONE";
     private static final long MAX_MS = 8_000L;
-
-    private static final int C_BG_TOP = Color.parseColor("#3A2B5E");
-    private static final int C_BG = Color.parseColor("#1B1530");
-    private static final int C_TITLE = Color.parseColor("#FFFFFF");
-    private static final int C_SUB = Color.parseColor("#C9C5D8");
-    private static final int C_CORAL = Color.parseColor("#F9674E");
 
     private final Handler ui = new Handler(Looper.getMainLooper());
     private final Runnable timeout = this::finish;
@@ -113,64 +99,45 @@ public class RelockCoverActivity extends Activity {
         return e.getKeyCode() != KeyEvent.KEYCODE_POWER || super.dispatchKeyEvent(e);
     }
 
+    /**
+     * The AIO signature moment: the dim scene drifting behind, the nav pill with the AIO mark
+     * and the venue, and low on the left "Just a moment." with a shimmer line under it.
+     */
     private View buildView() {
-        LinearLayout root = new LinearLayout(this);
-        root.setOrientation(LinearLayout.VERTICAL);
-        root.setGravity(Gravity.CENTER);
-        root.setBackground(new GradientDrawable(GradientDrawable.Orientation.TL_BR,
-                new int[] {C_BG_TOP, C_BG}));
+        FrameLayout root = new FrameLayout(this);
+        root.addView(new AioLook.Scene(this, true), new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
 
-        // Logo tile inside a coral ring that spins.
-        FrameLayout ring = new FrameLayout(this);
-        ProgressBar spin = new ProgressBar(this);
-        spin.setIndeterminate(true);
-        spin.setIndeterminateTintList(ColorStateList.valueOf(C_CORAL));
-        ring.addView(spin, new FrameLayout.LayoutParams(dp(132), dp(132), Gravity.CENTER));
+        LinearLayout col = new LinearLayout(this);
+        col.setOrientation(LinearLayout.VERTICAL);
+        col.setPadding(dp(14), dp(14), dp(14), dp(32));
+        col.addView(AioLook.navPill(this, AioLook.venueChip(this)),
+                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(46)));
+        col.addView(new View(this), new LinearLayout.LayoutParams(1, 0, 1f));
 
-        FrameLayout tile = new FrameLayout(this);
-        GradientDrawable tileBg = new GradientDrawable();
-        tileBg.setCornerRadius(dp(17));
-        Bitmap logo = VenueIcon.icon(this);
-        if (logo != null && GuestInfo.load(this).hasRestaurant()) {
-            tileBg.setColor(Color.WHITE);
-            ImageView iv = new ImageView(this);
-            iv.setImageBitmap(logo);
-            iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            iv.setPadding(dp(8), dp(8), dp(8), dp(8));
-            tile.addView(iv, new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-        } else {
-            tileBg.setColors(new int[] {C_CORAL, Color.parseColor("#7A80F6")});
-            tileBg.setOrientation(GradientDrawable.Orientation.TL_BR);
-            TextView mark = new TextView(this);
-            mark.setText("AIO");
-            mark.setTextColor(Color.WHITE);
-            mark.setTextSize(15);
-            mark.setTypeface(Typeface.create("aio-sans-medium", Typeface.NORMAL));
-            mark.setLetterSpacing(0.08f);
-            mark.setGravity(Gravity.CENTER);
-            tile.addView(mark, new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-        }
-        tile.setBackground(tileBg);
-        tile.setClipToOutline(true);
-        ring.addView(tile, new FrameLayout.LayoutParams(dp(64), dp(64), Gravity.CENTER));
-        root.addView(ring, new LinearLayout.LayoutParams(dp(132), dp(132)));
+        TextView title = AioLook.headline(this, "Just a *moment.*", 38);
+        col.addView(title, inset(0));
+        TextView sub = AioLook.text(this, "Bringing the menu back.", AioLook.ON_DARK_80, 14, AioLook.REGULAR);
+        col.addView(sub, inset(dp(10)));
+        AioLook.Shimmer line = new AioLook.Shimmer(this);
+        LinearLayout.LayoutParams lp = inset(dp(18));
+        lp.height = dp(3);
+        col.addView(line, lp);
+        root.addView(col, new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
 
-        root.addView(label("Just a moment", C_TITLE, 26, "aio-sans-medium", dp(28)));
-        root.addView(label("Getting the menu ready", C_SUB, 15, "aio-sans", dp(6)));
+        AioLook.rise(title, 80);
+        AioLook.rise(sub, 220);
+        AioLook.rise(line, 320);
         return root;
     }
 
-    private TextView label(String text, int color, float sp, String family, int top) {
-        TextView t = new TextView(this);
-        t.setText(text);
-        t.setTextColor(color);
-        t.setTextSize(sp);
-        t.setTypeface(Typeface.create(family, Typeface.NORMAL));
-        t.setGravity(Gravity.CENTER);
-        t.setPadding(dp(24), top, dp(24), 0);
-        return t;
+    private LinearLayout.LayoutParams inset(int top) {
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.leftMargin = lp.rightMargin = dp(8);
+        lp.topMargin = top;
+        return lp;
     }
 
     private int dp(int v) {

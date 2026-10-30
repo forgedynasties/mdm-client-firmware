@@ -75,7 +75,7 @@
          from the first frame. -->
     <style name="RelockCoverTheme" parent="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen">
         <item name="android:windowBackground">@drawable/relock_cover_bg</item>
-        <item name="android:windowSplashScreenBackground">#FF1B1530</item>
+        <item name="android:windowSplashScreenBackground">#FF111113</item>
         <item name="android:windowSplashScreenAnimatedIcon">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@null</item>
     </style>

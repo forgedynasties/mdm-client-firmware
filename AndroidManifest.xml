@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:sharedUserId="android.uid.system"
     package="com.aioapp.mdm"
-    android:versionCode="120"
-    android:versionName="1.22.3" >
+    android:versionCode="121"
+    android:versionName="1.23.0" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -153,6 +153,16 @@
         <activity
             android:name=".UnlockActivity"
             android:label="Kiosk"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:showWhenLocked="true"
+            android:theme="@style/RelockCoverTheme" />
+
+        <!-- Staff controls (StaffPanelActivity): a right staff PIN on a T7 opens them from
+             UnlockActivity, in its task, so the tablet stays in lock task. -->
+        <activity
+            android:name=".StaffPanelActivity"
             android:exported="false"
             android:excludeFromRecents="true"
             android:launchMode="singleTop"

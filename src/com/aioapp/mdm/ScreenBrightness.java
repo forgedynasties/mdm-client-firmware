@@ -156,6 +156,15 @@ final class ScreenBrightness {
         observer = null;
     }
 
+    /** The dashboard holds the level: staff can't change it on the tablet. */
+    static boolean heldByDashboard(Context ctx) {
+        return prefs(ctx).getBoolean(KEY_LOCKED, false);
+    }
+
+    /** The platform slider range, for the staff panel's slider. */
+    static int minLevel() { return sysInt("config_screenBrightnessSettingMinimum", 1); }
+    static int maxLevel() { return sysInt("config_screenBrightnessSettingMaximum", 255); }
+
     /** Into the platform slider range (config_screenBrightnessSettingMinimum..Maximum). */
     private static int clamp(int level) {
         if (level <= 0) return level;

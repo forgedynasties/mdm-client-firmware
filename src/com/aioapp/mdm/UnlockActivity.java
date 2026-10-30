@@ -34,8 +34,10 @@ import android.widget.TextView;
  * U1 · Split (picked 28 Oct 2026, the same design as the Standard client's): on a landscape
  * screen the venue, "Staff unlock", what happens and the device on the left, the keypad on the
  * right; on a portrait screen the two stack. Dots fill as digits go in, round keys sized to the
- * screen, a coral unlock key next to 0, a white ring on the key a D-pad is on. A right PIN shows "Staff mode on" for a moment, then the tablet leaves lock task
- * and {@link StaffPill} stays up until someone goes back to guest mode.
+ * screen, a coral unlock key next to 0, a white ring on the key a D-pad is on. On a T7 a right
+ * PIN opens the staff controls ({@link StaffPanelActivity}) inside the lock (1.23.0); on the
+ * other products it shows "Staff mode on" for a moment, then the tablet leaves lock task and
+ * {@link StaffPill} stays up until someone goes back to guest mode.
  *
  * Opened by the firmware's corner + Power gesture (MdmService.onKioskExitRequested). Never
  * opens in lost mode — only the dashboard lifts that (see LostMode).
@@ -182,8 +184,12 @@ public class UnlockActivity extends Activity {
         if (land) title.setGravity(Gravity.START);
         title.setLineSpacing(0, 1.05f);
         col.addView(title, startMargin(land, dp(6)));
-        TextView sub = label(land ? "The device leaves guest mode until you switch it back. Your manager has the PIN."
-                : "Leaves guest mode until you switch it back.", C_TEXT, 15, FONT);
+        boolean panel = StaffPanelActivity.supported();
+        TextView sub = label(panel
+                ? (land ? "Opens the staff controls. Guests get the tablet back by itself. Your manager has the PIN."
+                        : "Opens the staff controls.")
+                : (land ? "The device leaves guest mode until you switch it back. Your manager has the PIN."
+                        : "Leaves guest mode until you switch it back."), C_TEXT, 15, FONT);
         sub.setAlpha(0.62f);
         sub.setMaxWidth(dp(340));
         sub.setLineSpacing(0, 1.2f);
@@ -431,6 +437,12 @@ public class UnlockActivity extends Activity {
             }
             return;
         }
+        if (StaffPanelActivity.supported()) {
+            // A T7 stays in lock task: the staff controls open over the menu app.
+            StaffPanelActivity.open(this);
+            finish();
+            return;
+        }
         showStaffModeOn();
         ui.postDelayed(this::exitLockMode, SUCCESS_MS);
     }
@@ -453,10 +465,20 @@ public class UnlockActivity extends Activity {
     }
 
     private void exitLockMode() {
+        leaveGuestMode(this);
+        finish();
+    }
+
+    /**
+     * Out of lock task for staff: the tablet's whole UI, with the staff pill up until someone
+     * goes back to guest mode. The PIN exit on products without the staff panel, and the
+     * panel's Full tablet tile on a T7.
+     */
+    static void leaveGuestMode(Context ctx) {
         try {
-            DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-            ComponentName admin = new ComponentName(this, MdmAdminReceiver.class);
-            KioskManager.suspendLocally(this, dpm, admin);
+            DevicePolicyManager dpm = (DevicePolicyManager) ctx.getSystemService(Context.DEVICE_POLICY_SERVICE);
+            ComponentName admin = new ComponentName(ctx, MdmAdminReceiver.class);
+            KioskManager.suspendLocally(ctx, dpm, admin);
         } catch (Exception e) {
             Log.e(TAG, "suspendLocally error: " + e.getMessage());
         }
@@ -464,13 +486,12 @@ public class UnlockActivity extends Activity {
         // the suspension only rode the next scheduled check-in, so the dashboard showed the
         // device as locked long after the technician had unlocked it in front of the customer.
         try {
-            Intent report = new Intent(this, MdmService.class);
+            Intent report = new Intent(ctx, MdmService.class);
             report.setAction(MdmService.ACTION_KIOSK_EXITED);
-            startService(report);
+            ctx.startService(report);
         } catch (Exception e) {
             Log.e(TAG, "exit report error: " + e.getMessage());
         }
-        finish();
     }
 
     private int dp(int v) {
