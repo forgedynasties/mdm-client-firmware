@@ -207,7 +207,6 @@
                 android:id="@+id/home_t5_sub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:fontFamily="aio-sans"
                 android:maxLines="1"
                 android:ellipsize="end"
