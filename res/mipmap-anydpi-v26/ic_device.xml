@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AIO Device: the AIO mark on white, as in the Linen home demo's dock. -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@android:color/white" />
+    <foreground android:drawable="@drawable/ic_device_mark" />
+    <monochrome android:drawable="@drawable/ic_device_mark" />
+</adaptive-icon>

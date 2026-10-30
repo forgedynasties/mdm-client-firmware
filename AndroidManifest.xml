@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:sharedUserId="android.uid.system"
     package="com.aioapp.mdm"
-    android:versionCode="122"
-    android:versionName="1.24.0" >
+    android:versionCode="123"
+    android:versionName="1.25.0" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -182,6 +182,21 @@
             android:launchMode="singleTop"
             android:showWhenLocked="true"
             android:theme="@style/RelockCoverTheme" />
+
+        <!-- AIO Device: the AIO mark in an unlocked T7's dock (Linen home), a read-only page of
+             the tablet's state. Lock task keeps it away from guests. -->
+        <activity
+            android:name=".DeviceActivity"
+            android:exported="true"
+            android:icon="@mipmap/ic_device"
+            android:roundIcon="@mipmap/ic_device"
+            android:label="@string/device_label"
+            android:theme="@style/DeviceTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
     </application>
 </manifest>

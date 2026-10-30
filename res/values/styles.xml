@@ -79,4 +79,14 @@
         <item name="android:windowSplashScreenAnimatedIcon">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@null</item>
     </style>
+
+    <!-- AIO Device: linen, with dark status and navigation bar icons. -->
+    <style name="DeviceTheme" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        <item name="android:windowBackground">@color/device_linen</item>
+        <item name="android:statusBarColor">@color/device_linen</item>
+        <item name="android:navigationBarColor">@color/device_linen</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowSplashScreenBackground">@color/device_linen</item>
+    </style>
 </resources>

@@ -25,7 +25,7 @@ import android.widget.RemoteViews;
 import org.json.JSONObject;
 
 /**
- * The AIO Home widget (1.24.0): the 4x3 block under the Google search bar on an unlocked T7's
+ * The AIO Home widget (1.24.0; 4x2 on Linen since 1.25.0): the block under the Google search bar on an unlocked T7's
  * home screen, in the Home style the launcher is set to ({@code Settings.Global}
  * {@value #STYLE_KEY}, written by the launcher's Home settings or the MDM shell):
  * <ul>
@@ -65,6 +65,10 @@ public class AioHomeWidget extends AppWidgetProvider {
         if (online == up) return;
         online = up;
         updateAll(ctx);
+    }
+
+    static boolean isOnline() {
+        return online;
     }
 
     /** A battery broadcast: only the board shows the battery, and only a new reading redraws. */
@@ -219,8 +223,8 @@ public class AioHomeWidget extends AppWidgetProvider {
 
     // ── helpers ─────────────────────────────────────────────────────────────
 
-    /** What the widgets show, read once per redraw. */
-    private static final class State {
+    /** What the widgets (and AIO Device) show, read once per redraw. */
+    static final class State {
         final GuestInfo g;
         final boolean deployed, kiosk, plugged;
         final String ssid, menuApp, build, serial;

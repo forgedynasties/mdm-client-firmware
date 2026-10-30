@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AIO Device's icon: the AIO mark in ink, centred in the adaptive icon's safe zone. Also its
+     monochrome layer, so the launcher's themed icons draw it like the others. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group android:translateX="32.6" android:translateY="43.9" android:scaleX="2" android:scaleY="2">
+        <group android:translateX="-1.3" android:translateY="-0.8">
+            <path
+                android:fillColor="#00000000"
+                android:strokeColor="#FF111113"
+                android:strokeWidth="1.5"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"
+                android:pathData="M2.4,10.1L6.6,4.3L10.6,9.5Q11.1,10.1 12,10.1H20.8A1.1,1.1 0,0 0,21.9 9V5.6A1.3,1.3 0,0 0,20.6 4.3H16.4A1.35,1.35 0,0 0,15.05 5.65V7.9M12.25,4.3V7.95" />
+            <path
+                android:fillColor="#00000000"
+                android:strokeColor="#FF111113"
+                android:strokeWidth="0.4"
+                android:pathData="M12.25,1.18A0.72,0.72 0,1 1,12.25 2.62A0.72,0.72 0,1 1,12.25 1.18Z" />
+        </group>
+    </group>
+</vector>
