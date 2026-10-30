@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:sharedUserId="android.uid.system"
     package="com.aioapp.mdm"
-    android:versionCode="128"
-    android:versionName="1.28.1" >
+    android:versionCode="129"
+    android:versionName="1.28.2" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -120,6 +120,16 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/aio_home_widget_info" />
+        </receiver>
+
+        <!-- The Home style from the MDM shell (HomeStyleReceiver). -->
+        <receiver
+            android:name=".HomeStyleReceiver"
+            android:exported="true"
+            android:permission="android.permission.WRITE_SECURE_SETTINGS">
+            <intent-filter>
+                <action android:name="com.aioapp.mdm.SET_HOME_STYLE" />
+            </intent-filter>
         </receiver>
 
         <!-- AIO Home, Board's title over the search bar (AioTitleWidget). -->
