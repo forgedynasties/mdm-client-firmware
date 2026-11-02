@@ -3,4 +3,7 @@
     <allow-in-power-save package="com.aioapp.mdm" />
     <allow-in-data-usage-save package="com.aioapp.mdm" />
     <allow-unthrottled-location package="com.aioapp.mdm" />
+    <!-- Not stopped on the first boot after a wipe (config_stopSystemPackagesByDefault): the client
+         has a launcher entry since 1.25.0, so it would wait for a tap and AutoSetup would never run. -->
+    <initial-package-state package="com.aioapp.mdm" stopped="false" />
 </config>
