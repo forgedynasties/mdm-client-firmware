@@ -45,14 +45,17 @@ public class DeviceActivity extends Activity {
             getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(page));
             getWindow().setStatusBarColor(page);
             getWindow().setNavigationBarColor(page);
-            getWindow().getInsetsController().setSystemBarsAppearance(0,
-                    android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-                            | android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS);
         }
         root = new ScrollView(this);
         root.setBackgroundColor(page);
         root.setFitsSystemWindows(true);
         setContentView(root);
+        if (dark) {
+            // Only after setContentView: before it the window has no decor and this throws.
+            getWindow().getInsetsController().setSystemBarsAppearance(0,
+                    android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                            | android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS);
+        }
     }
 
     @Override
