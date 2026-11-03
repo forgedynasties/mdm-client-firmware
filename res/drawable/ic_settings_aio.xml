@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- AIO Device's entry on the Settings home page: the AIO mark on the coral-to-violet gradient. -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:width="40dp" android:height="40dp">
-        <shape android:shape="oval">
-            <gradient android:angle="315" android:startColor="#FFF9674E" android:endColor="#FF7A80F6" />
-        </shape>
-    </item>
-    <item android:width="40dp" android:height="40dp" android:left="7dp" android:right="7dp"
-        android:top="13dp" android:bottom="13dp" android:drawable="@drawable/aio_mark" />
-</layer-list>
+<!-- AIO Device's entry on the Settings home page, which sits on its own coral-to-violet card:
+     the white AIO mark on a faint glass circle, like the other entries' icons. One vector, so it
+     scales to whatever size Settings draws its icons at (a layer-list with fixed sizes didn't). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+    <path
+        android:fillColor="#29FFFFFF"
+        android:pathData="M20,0A20,20 0,1 1,20 40A20,20 0,1 1,20 0Z" />
+    <group android:translateX="7.15" android:translateY="13.95" android:scaleX="1.2" android:scaleY="1.2">
+        <group android:translateX="-1.3" android:translateY="-0.8">
+            <path
+                android:fillColor="#00000000"
+                android:strokeColor="#FFFFFFFF"
+                android:strokeWidth="1.35"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"
+                android:pathData="M2.4,10.1L6.6,4.3L10.6,9.5Q11.1,10.1 12,10.1H20.8A1.1,1.1 0,0 0,21.9 9V5.6A1.3,1.3 0,0 0,20.6 4.3H16.4A1.35,1.35 0,0 0,15.05 5.65V7.9M12.25,4.3V7.95" />
+            <path
+                android:fillColor="#00000000"
+                android:strokeColor="#FFFFFFFF"
+                android:strokeWidth="0.32"
+                android:pathData="M12.25,1.18A0.72,0.72 0,1 1,12.25 2.62A0.72,0.72 0,1 1,12.25 1.18Z" />
+        </group>
+    </group>
+</vector>
