@@ -49,7 +49,8 @@ public class KioskManager {
             return;
         }
         try {
-            boolean enabled = config.optBoolean("kiosk_enabled", false);
+            // Locking switched off on the server (ServerSwitches, 1.22.5): never lock.
+            boolean enabled = config.optBoolean("kiosk_enabled", false) && !ServerSwitches.lockOff(ctx);
             String pkg = config.optString("kiosk_package", "");
 
             if (enabled && !pkg.isEmpty()) {

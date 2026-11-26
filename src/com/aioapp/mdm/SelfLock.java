@@ -92,6 +92,7 @@ final class SelfLock {
      */
     static boolean onScan(Context ctx, DevicePolicyManager dpm, ComponentName admin, JSONArray scan,
                           String connectedSsid, boolean phoneOnPad, String serial) {
+        if (ServerSwitches.lostOff(ctx)) return false; // lost device switched off on the server
         SharedPreferences p = prefs(ctx);
         String venue = GuestInfo.load(ctx).restaurantName;
         if (!venue.equals(p.getString(K_VENUE, ""))) {

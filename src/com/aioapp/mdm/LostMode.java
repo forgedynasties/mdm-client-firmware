@@ -88,6 +88,10 @@ final class LostMode {
      */
     static void turnOn(Context ctx, DevicePolicyManager dpm, ComponentName admin,
                        String message, String phone, String serial, String beacon, boolean self) {
+        if (ServerSwitches.lostOff(ctx)) {
+            Log.i(TAG, "lost mode is switched off on the server: not turning it on");
+            return;
+        }
         SharedPreferences p = prefs(ctx);
         String token = beacon == null ? "" : beacon.trim().toLowerCase(java.util.Locale.ROOT);
         if (!token.matches("[0-9a-f]{16}")) token = "";

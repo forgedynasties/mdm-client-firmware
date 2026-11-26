@@ -685,6 +685,7 @@ public class MdmService extends Service {
                 LostMode.enforce(this, dpm, adminComponent);
                 return;
             }
+            if (ServerSwitches.lockOff(this)) return; // locking switched off on the server
             JSONObject cfg = KioskManager.loadConfig(this);
             if (cfg == null || !cfg.optBoolean("kiosk_enabled", false)) return;
             String pkg = cfg.optString("kiosk_package", "");
@@ -719,7 +720,7 @@ public class MdmService extends Service {
 
     /** The saved config wants this tablet locked, and nothing local says otherwise. */
     private boolean kioskWanted() {
-        if (LostMode.isOn(this) || KioskExit.isSuspended(this)) return false;
+        if (LostMode.isOn(this) || KioskExit.isSuspended(this) || ServerSwitches.lockOff(this)) return false;
         JSONObject cfg = KioskManager.loadConfig(this);
         return cfg != null && cfg.optBoolean("kiosk_enabled", false)
                 && !cfg.optString("kiosk_package", "").isEmpty();
@@ -771,12 +772,19 @@ public class MdmService extends Service {
      */
     private void updateStaffPill() {
         if (staffPill == null) return;
-        if (KioskExit.isStaffMode(this) && !LostMode.isOn(this)) staffPill.show();
+        if (KioskExit.isStaffMode(this) && !LostMode.isOn(this) && !ServerSwitches.lockOff(this)) staffPill.show();
         else staffPill.hide();
     }
 
     /** "Back to guest mode" on the staff pill: lock the host app again now. */
     private void backToGuestMode() {
+        if (ServerSwitches.lockOff(this)) {
+            // Locking is switched off on the server: there is no guest mode to go back to.
+            KioskExit.endStaffMode(this);
+            KioskExit.setSuspended(this, false);
+            staffPill.hide();
+            return;
+        }
         String pkg = KioskExit.staffPackage(this);
         Log.i(TAG, "staff pill: back to guest mode on " + pkg);
         KioskExit.setSuspended(this, false);
@@ -803,7 +811,7 @@ public class MdmService extends Service {
 
     /** The firmware asked for the staff PIN pad (corner + Power while locked). */
     private void onKioskExitRequested() {
-        if (!isInKioskLock() || LostMode.isOn(this) || !KioskExit.isEnabled(this)) return;
+        if (!isInKioskLock() || LostMode.isOn(this) || !KioskExit.isEnabled(this) || ServerSwitches.lockOff(this)) return;
         Log.i(TAG, "kiosk-exit: corner + Power — opening the staff PIN pad");
         showUnlockPrompt();
     }
@@ -1809,6 +1817,22 @@ public class MdmService extends Service {
         } catch (Exception e) {
             Log.e(TAG, "guest info save error: " + e.getMessage());
         }
+        // The server's Lock / Lost switches (1.22.5, ServerSwitches). Off: no staff mode, no
+        // re-lock this device set itself, no local exit; out of lost mode.
+        try {
+            ServerSwitches.save(MdmService.this, config);
+            if (ServerSwitches.lockOff(MdmService.this)) {
+                KioskExit.endStaffMode(MdmService.this);
+                KioskExit.clearPendingRelock(MdmService.this);
+                KioskExit.setSuspended(MdmService.this, false);
+            }
+            if (ServerSwitches.lostOff(MdmService.this) && LostMode.isOn(MdmService.this)) {
+                Log.i(TAG, "lost mode is switched off on the server: lifting it");
+                LostMode.lift(MdmService.this, dpm, adminComponent);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "server switches error: " + e.getMessage());
+        }
         // Offline kiosk-exit policy (the exit PIN) is provisioned via config;
         // store it before applying kiosk policy so a suspended device is respected.
         try {
@@ -1850,7 +1874,12 @@ public class MdmService extends Service {
         // watchdog (enforceKioskLock) still re-asserts a dropped lock independently.
         try {
             String kioskSig = config.optBoolean("kiosk_enabled", false) + "|" + config.optString("kiosk_package", "");
-            if (!kioskSig.equals(kioskLastSig)) {
+            // Locking switched off on the server, and the saved config still says locked (a
+            // "Back to guest mode" wrote it, or it predates the switch): apply the server's
+            // config although its signature hasn't changed, so the saved lock is replaced.
+            JSONObject saved = ServerSwitches.lockOff(MdmService.this) ? KioskManager.loadConfig(MdmService.this) : null;
+            boolean savedLocked = saved != null && saved.optBoolean("kiosk_enabled", false);
+            if (!kioskSig.equals(kioskLastSig) || savedLocked) {
                 KioskManager.applyAndSave(MdmService.this, dpm, adminComponent, config);
                 // The lock is on again server-side (the dashboard re-locked it, or took up a
                 // "Back to guest mode" from here): staff mode is over.
